@@ -8,4 +8,67 @@ select{
 select:focus{
   outline: 0;
 }
+img{
+  max-width: 100%;
+}
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  padding: 10px;
+}
+
+.dark-mode{
+  font-size: 16px;
+}
+
+.dropdown{
+  background-color: bisque;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 16px;
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown ul{
+  background-color: bisque;
+  position: absolute;
+  left: 0;
+  display: none;
+  width: 100%;
+  padding: 20px;
+  top: 45px;
+  list-style: none;
+}
+.dropdown.open ul{
+  display: block;
+}
+
+.dropdown ul li{
+  margin: 5px 0;
+}
+
+.card{
+  border-radius: 5px;
+  background-color: bisque;
+  width: 300px;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.card-body{
+  padding: 30px;
+}
+
+.card-body h2{
+  margin-top: 0;
+}
+
+.container.countries{
+  justify-content: center;
+}
