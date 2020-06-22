@@ -1,2 +1,4 @@
-export { Login } from "../components/Login/Login";
-export { SignUp } from "../components/Sign-up/SignUp";
+import "./style.scss";
+
+export { Login } from "./Login/login";
+export { Register } from "./Sign-up/register";

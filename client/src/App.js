@@ -1,84 +1,72 @@
-import React from 'react';
-import './App.css';
-import Nav from "./components/Nav/Nav";
-import About from "./components/About/About";
-import { Login } from "../src/components/index";
-//import SearchBox from "./components/SearchBox/SearchBox";
-// import axios from "axios";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from "react";
+import "./App.scss";
+import { Login, Register } from "./components/index";
 
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLogginActive: true
+        };
+    }
 
+    componentDidMount() {
+        //Add .right by default
+        this.rightSide.classList.add("right");
+    }
 
+    changeState() {
+        const { isLogginActive } = this.state;
 
-function App() {
+        if (isLogginActive) {
+            this.rightSide.classList.remove("right");
+            this.rightSide.classList.add("left");
+        } else {
+            this.rightSide.classList.remove("left");
+            this.rightSide.classList.add("right");
+        }
+        this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
+    }
 
+    render() {
+        const { isLogginActive } = this.state;
+        const current = isLogginActive ? "Register" : "Login";
+        const currentActive = isLogginActive ? "login" : "register";
+        return (
+            <div className="App">
+                <div className="login">
+                    <div className="container" ref={ref => (this.container = ref)}>
+                        {isLogginActive && (
+                            <Login containerRef={ref => (this.current = ref)} />
+                        )}
+                        {!isLogginActive && (
+                            <Register containerRef={ref => (this.current = ref)} />
+                        )}
+                    </div>
+                    <RightSide
+                        current={current}
+                        currentActive={currentActive}
+                        containerRef={ref => (this.rightSide = ref)}
+                        onClick={this.changeState.bind(this)}
+                    />
+                </div>
+            </div>
+        );
+    }
+}
+
+const RightSide = props => {
     return (
-      <Router>
-          <div className="App">
-              <Login/>
-              {/*<Nav />*/}
-              {/*<Switch>*/}
-              {/*    <Route path="/" exact component={Home}/>*/}
-              {/*    <Route path="/about" component={About}/>*/}
-              {/*    <Route path="/login" component={Login}/>*/}
-              {/*</Switch>*/}
-          </div>
-      </Router>
-  );
- }
-
-
-// const Home = () => (
-//     <div>
-//         <header>
-//             <div  className="container">
-//                 <h1>Countries Around the world</h1>
-//                 {/*<button className="btn dark-mode">*/}
-//                 {/*    Dark Mode*/}
-//                 {/*</button>*/}
-//             </div>
-//         </header>
-//
-//         <section>
-//             <div className="container">
-//                 <SearchBox id="search" searchChange="" />
-//
-//                 <div className="dropdown">
-//                     Filter by region
-//                     <ul>
-//                         <li>Africa</li>
-//                         <li>America</li>
-//                         <li>Asia</li>
-//                         <li>Europe</li>
-//                         <li>Oceania</li>
-//                     </ul>
-//                 </div>
-//             </div>
-//         </section>
-//
-//         <section>
-//             <div className="container countries" id="countries">
-//                 {/*<h2>Countries Loading...</h2>*/}
-//
-//                 <div className="card">
-//                     <div>
-//                         <img src="https://restcountries.eu/data/deu.svg" alt="Germany"/>
-//                     </div>
-//                     <div className="card-body">
-//                         <h2>Germany</h2>
-//                         <p><strong>Population</strong>: 80,000,000</p>
-//                         <p><strong>Region</strong>: Europe</p>
-//                         <p><strong>Capital</strong>: Berlin</p>
-//                     </div>
-//                 </div>
-//
-//
-//
-//
-//
-//             </div>
-//         </section>
-//     </div>
-// );
+        <div
+            className="right-side"
+            ref={props.containerRef}
+            onClick={props.onClick}
+        >
+            <div className="inner-container">
+                <div className="text">{props.current}</div>
+            </div>
+        </div>
+    );
+};
 
 export default App;
