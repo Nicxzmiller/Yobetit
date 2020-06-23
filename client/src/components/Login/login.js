@@ -1,8 +1,10 @@
 import React from "react";
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import loginImg from "../../images/login.png";
-import { login } from "../UserFunctions";
+import { authenticate } from "../../store/actions";
 
-export class Login extends React.Component {
+class Login extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,20 +22,19 @@ export class Login extends React.Component {
 
     onSubmit(e){
         e.preventDefault();
+        const {dispatch} = this.props;
 
         const user = {
             email: this.state.email,
             password:this.state.password
         };
 
-        login(user).then(res=>{
-            if(res){
-                this.props.history.push(`/profile`);
-            }
-        })
+        dispatch(authenticate(user));
     }
 
     render() {
+        const {error, isLoggedIn} = this.props;
+        if (!error && isLoggedIn) return  <Redirect to='/profile'/>;
         return (
             <div className="base-container" ref={this.props.containerRef}>
                 <div className="header">Login</div>
@@ -41,7 +42,7 @@ export class Login extends React.Component {
                     <div className="image">
                         <img src={loginImg} />
                     </div>
-                    <div className="form" noValidate onSubmit={this.onSubmit}>
+                    <form className="form" noValidate onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
                             <input type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.onChange}/>
@@ -50,16 +51,23 @@ export class Login extends React.Component {
                             <label htmlFor="password">Password</label>
                             <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.onChange}/>
                         </div>
-                    </div>
-                </div>
-                <div className="footer">
-                    <button type="submit" className="btn">
-                        Login
-                    </button>
+                        <div className="footer">
+                            <button type="submit" className="btn">
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                    {error && <div className='error'>{error}</div>}
                 </div>
             </div>
         );
     }
 }
 
-export default Login;
+const mapState = ({user: {error, isLoading, isLoggedIn}}) => ({
+    error,
+    isLoading,
+    isLoggedIn
+});
+
+export default connect(mapState)(Login);

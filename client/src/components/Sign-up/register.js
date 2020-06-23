@@ -1,8 +1,10 @@
 import React from "react";
+import {Redirect} from 'react-router-dom'
 import loginImg from "../../images/login.png";
-import { register } from "../UserFunctions";
+import { authenticate } from "../../store/actions";
+import {connect} from "react-redux";
 
-export class Register extends React.Component {
+class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +23,7 @@ export class Register extends React.Component {
 
     onSubmit(e){
         e.preventDefault();
+        const {dispatch} = this.props;
 
         const user = {
             username:this.state.username,
@@ -28,14 +31,12 @@ export class Register extends React.Component {
             password:this.state.password
         };
 
-        register(user).then(res=>{
-            if(res){
-                this.props.history.push(`/login`);
-            }
-        })
+        dispatch(authenticate(user, 'register'));
     }
 
     render() {
+        const {error, isLoggedIn} = this.props;
+        if (!error && isLoggedIn) return  <Redirect to='/profile'/>;
         return (
             <div className="base-container" ref={this.props.containerRef}>
                 <div className="header">Register</div>
@@ -43,7 +44,7 @@ export class Register extends React.Component {
                     <div className="image">
                         <img src={loginImg} />
                     </div>
-                    <div className="form" noValidate onSubmit={this.onSubmit}>
+                    <form className="form" noValidate onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
                             <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.onChange}/>
@@ -56,16 +57,23 @@ export class Register extends React.Component {
                             <label htmlFor="password">Password</label>
                             <input type="text" name="password" placeholder="Password" value={this.state.password} onChange={this.onChange}/>
                         </div>
-                    </div>
-                </div>
-                <div className="footer">
-                    <button type="submit" className="btn">
-                        Register
-                    </button>
+                        <div className="footer">
+                            <button type="submit" className="btn">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                    {error && <div className='error'>{error}</div>}
                 </div>
             </div>
         );
     }
 }
 
-export default Register;
+const mapState = ({user: {error, isLoading, isLoggedIn}}) => ({
+    error,
+    isLoading,
+    isLoggedIn
+});
+
+export default connect(mapState)(Register);

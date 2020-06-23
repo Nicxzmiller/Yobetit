@@ -1,27 +1,12 @@
-import React, { Component } from "react";
-import jwt_decode from 'jwt-decode';
+import React, { PureComponent } from "react";
+import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux'
 
-class Profile extends Component{
-    constructor(){
-        super();
-        this.state = {
-            username:'',
-            email:''
-            // date: new Date()
-        }
-    }
-
-    componentDidMount() {
-        const token = localStorage.usertoken;
-        const decoded = jwt_decode(token);
-        this.state({
-            username: decoded.username,
-            email:decoded.email
-            // date: decoded.date
-        })
-    }
+class Profile extends PureComponent{
 
     render() {
+        const {isLoggedIn} = this.props;
+        if (!isLoggedIn) return <Redirect to='/login' />;
         return(
             <div className="container">
                 <div className="jumbotron mt-5">
@@ -32,11 +17,11 @@ class Profile extends Component{
                         <tbody>
                         <tr>
                             <td>Username</td>
-                            <td>{this.state.username}</td>
+                            <td>{this.props.username}</td>
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td>{this.state.email}</td>
+                            <td>{this.props.email}</td>
                         </tr>
                         {/*<tr>*/}
                         {/*    <td>Date</td>*/}
@@ -45,10 +30,20 @@ class Profile extends Component{
                         </tbody>
                     </table>
                 </div>
+                <div>
+                    <h1>SLOT MACHINE</h1>
+
+                </div>
             </div>
         )
     }
 
 }
 
-export default Profile;
+const mapState = ({user: {username, email, isLoggedIn}}) => ({
+    username,
+    email,
+    isLoggedIn
+});
+
+export default connect(mapState)(Profile);
