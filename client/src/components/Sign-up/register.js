@@ -47,15 +47,15 @@ class Register extends React.Component {
                     <form className="form" noValidate onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
-                            <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.onChange}/>
+                            <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.onChange} required/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
-                            <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.onChange}/>
+                            <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.onChange} required/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input type="text" name="password" placeholder="Password" value={this.state.password} onChange={this.onChange}/>
+                            <input type="text" name="password" placeholder="Password" value={this.state.password} onChange={this.onChange} required/>
                         </div>
                         <div className="footer">
                             <button type="submit" className="btn">
