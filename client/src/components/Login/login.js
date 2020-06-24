@@ -45,11 +45,11 @@ class Login extends React.PureComponent {
                     <form className="form" noValidate onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
-                            <input type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.onChange} required/>
+                            <input type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.onChange}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.onChange} required/>
+                            <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.onChange}/>
                         </div>
                         <div className="footer">
                             <button type="submit" className="btn">
