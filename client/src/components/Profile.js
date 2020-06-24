@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import {Redirect} from 'react-router-dom';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import SearchBox from "./SearchBox/SearchBox";
 
 class Profile extends PureComponent{
 
@@ -31,8 +32,7 @@ class Profile extends PureComponent{
                     </table>
                 </div>
                 <div>
-                    <h1>SLOT MACHINE</h1>
-
+                    <SearchBox/>
                 </div>
             </div>
         )
