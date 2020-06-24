@@ -22,7 +22,7 @@ class Navbar extends Component {
                     </Link>
                 </li>
             </ul>
-        )
+        );
         const userLink = (
             <ul className="navbar nav">
                 <li className="nav-item">

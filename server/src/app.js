@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const {countryRouter, userRouter} = require('./routes');
 
@@ -9,6 +10,7 @@ app.disable('x-powered-by');
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(cors());
 
 app.use('/countries', countryRouter);
 app.use('/user', userRouter);
